@@ -4,7 +4,7 @@
 %global crate joshuto
 %global __brp_mangle_shebangs %{nil}
 
-Name:           rust-joshuto
+Name:           joshuto
 Version:        0.9.9
 Release:        1%?dist
 Summary:        Terminal file manager inspired by ranger
