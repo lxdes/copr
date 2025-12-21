@@ -13,7 +13,7 @@ License:        LGPL-3.0
 URL:            https://crates.io/crates/joshuto
 Source:         %{crates_source}
 
-BuildRequires:  rust-packaging >= 21
+BuildRequires:  cargo rust-packaging >= 21
 
 %global _description %{expand:
 Terminal file manager inspired by ranger.}
@@ -32,7 +32,7 @@ Summary:        %{summary}
 
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
-%cargo_prep_online
+%cargo_prep -V 1
 
 %build
 %cargo_build
