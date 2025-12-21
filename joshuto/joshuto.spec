@@ -32,7 +32,7 @@ Summary:        %{summary}
 
 %prep
 %autosetup -n %{crate}-%{version_no_tilde} -p1
-%cargo_prep -V 1
+%cargo_prep_online
 
 %build
 %cargo_build
