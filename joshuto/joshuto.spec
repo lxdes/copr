@@ -13,7 +13,7 @@ License:        LGPL-3.0
 URL:            https://crates.io/crates/joshuto
 Source:         %{crates_source}
 
-BuildRequires:  anda-srpm-macros rust-packaging >= 21
+BuildRequires:  rust-packaging >= 21
 
 %global _description %{expand:
 Terminal file manager inspired by ranger.}
