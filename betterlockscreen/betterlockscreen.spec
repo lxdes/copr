@@ -17,6 +17,7 @@ Requires: i3lock-color
 Requires: ImageMagick
 Requires: xdpyinfo
 Requires: xrandr
+Requires: xset
 
 %description
 betterlockscreen is a bash script that uses i3lock-color to lock your
