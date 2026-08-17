@@ -11,6 +11,7 @@ Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
 AutoReq:        off
 
 Requires:       mpv
+Requires:       mpv-libs
 
 BuildRequires:  cargo
 BuildRequires:  rust
