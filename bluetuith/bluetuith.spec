@@ -1,31 +1,34 @@
-Name: bluetuith
-Version: 0.2.7
-Release: rc1
-Summary: A TUI bluetooth manager for Linux
-License: MIT
-URL: https://github.com/bluetuith-org/bluetuith
-Source0: https://github.com/bluetuith-org/bluetuith/releases/download/v0.2.5-rc1/bluetuith_0.2.5-rc1_Linux_x86_64.tar.gz
-Requires: bluez
-Requires: dbus
+%global crate bluetuith
+%global debug_package %{nil}
+
+Name:           %{crate}
+Version:        0.2.7
+Release:        1%{?dist}
+Summary:        A TUI bluetooth manager for Linux
+License:        MIT
+URL:            https://github.com/bluetuith-org/%{name}
+Source0:        https://github.com/bluetuith-org/%{name}/releases/download/v%{version}/%{name}_%{version}_Linux_x86_64.tar.gz
+Requires:       bluez
 
 %description
 bluetuith is a TUI-based Bluetooth manager for Linux with a terminal interface.
 
 %prep
-mkdir -p %{crate}-%{version}
-tar -xzf %{SOURCE0} -C %{crate}-%{version}
+%setup -q
 
 %build
 
 %install
-install -Dm755 %{crate}-%{version}/bluetuith %{buildroot}%{_bindir}/bluetuith
-install -Dm644 %{crate}-%{version}/LICENSE %{buildroot}%{_licensedir}/bluetuith/LICENSE
+install -Dm0755 %{crate} %{buildroot}%{_bindir}/%{crate}
+install -Dm0644 LICENSE %{buildroot}%{_licensedir}/%{crate}/LICENSE
 
 %files
-%{_bindir}/bluetuith
-%license %{_licensedir}/bluetuith/LICENSE
+%license %{_licensedir}/%{crate}/LICENSE
+%{_bindir}/%{crate}
 
 %changelog
-* Thu Nov 06 2025 - 0.2.5-1
+* Wed Aug 20 2026 - 0.2.7-1
+- Update to version 0.2.7
+
+* Mon Aug 18 2025 - 0.2.5-1
 - Initial COPR packaging from binary release
-- Mon Aug 18 2026 - 0.2.7
