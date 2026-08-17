@@ -14,11 +14,8 @@ Release:        %{bls_release}%{?dist}
 Summary:        Fast lockscreen for Linux systems with effects
 License:        MIT
 URL:            https://github.com/betterlockscreen/%{name}
-Source0:        https://github.com/betterlockscreen/%{name}/archive/refs/tags/v%{bls_version}.tar.gz
-Source1:        https://github.com/Raymo111/i3lock-color/archive/refs/tags/%{i3lock_version}.tar.gz
-
-Requires:       i3lock-color
-Requires:       ImageMagick
+Source0:        https://github.com/betterlockscreen/%{name}/archive/refs/tags/v%{bls_version}.tar.gz#/%{name}-%{bls_version}.tar.gz
+Source1:        https://github.com/Raymo111/i3lock-color/archive/refs/tags/%{i3lock_version}.tar.gz#/i3lock-color-%{i3lock_version}.tar.gz
 Requires:       xorg-x11-utils
 Requires:       xorg-x11-server-X11
 Requires:       xorg-x11-server-utils

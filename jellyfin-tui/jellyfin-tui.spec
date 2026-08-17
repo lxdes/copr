@@ -15,6 +15,8 @@ Requires:       mpv
 BuildRequires:  cargo
 BuildRequires:  rust
 BuildRequires:  openssl-devel
+BuildRequires:  sqlite-devel
+BuildRequires:  pkgconfig
 
 %description
 A feature-rich, music streaming Terminal User Interface (TUI) client for Jellyfin.
@@ -23,6 +25,7 @@ A feature-rich, music streaming Terminal User Interface (TUI) client for Jellyfi
 %autosetup -n %{crate}-%{version}
 
 %build
+export SQLX_OFFLINE=true
 export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
 
 cargo build --release
@@ -41,6 +44,4 @@ install -Dm0644 src/extra/jellyfin-tui.desktop %{buildroot}%{_datadir}/applicati
 %changelog
 * Tue Aug 18 2026 - 1.5.2-1
 - Update to version 1.5.2
-- Use refs/tags for Source0 URL
-- Add debug_package %{nil}
-- Remove unnecessary runtime dependencies
+- Add SQLX_OFFLINE=true and sqlite-devel build requirements
