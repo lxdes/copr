@@ -1,7 +1,7 @@
 %global crate jellyfin-tui
 
 Name:           %{crate}
-Version:        1.3.0
+Version:        1.5.2
 Release:        1%{?dist}
 Summary:        Music streaming TUI client for Jellyfin
 
@@ -61,3 +61,4 @@ install -m 0644 src/extra/jellyfin-tui.desktop \
 - Initial Fedora packaging.
 * %{date} %{user} -  1.3.0-1
 - https://github.com/dhonus/jellyfin-tui/releases/tag/v1.3.0
+* %{date} %{user} - 1.5.2-1
