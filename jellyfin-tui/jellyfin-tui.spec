@@ -1,27 +1,19 @@
 %global crate jellyfin-tui
+%global debug_package %{nil}
 
 Name:           %{crate}
 Version:        1.5.2
 Release:        1%{?dist}
 Summary:        Music streaming TUI client for Jellyfin
-
 License:        GPL-3.0-only
 URL:            https://github.com/dhonus/%{name}
-
-Source0:        %{url}/archive/v%{version}.tar.gz
+Source0:        %{url}/archive/refs/tags/v%{version}.tar.gz
+AutoReq:        off
 
 Requires:       mpv
-Requires:       openssl
-Requires:       sqlite
 
 BuildRequires:  cargo
 BuildRequires:  rust
-BuildRequires:  pkgconfig
-BuildRequires:  make
-
-BuildRequires:  mpv-devel
-BuildRequires:  openssl-devel
-BuildRequires:  sqlite-devel
 
 %description
 A feature-rich, music streaming Terminal User Interface (TUI) client for Jellyfin.
@@ -31,34 +23,23 @@ A feature-rich, music streaming Terminal User Interface (TUI) client for Jellyfi
 
 %build
 export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
-export PKG_CONFIG_ALLOW_CROSS=1
 
 cargo build --release
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_docdir}/%{name}
-mkdir -p %{buildroot}%{_licensedir}/%{name}
-mkdir -p %{buildroot}%{_datadir}/applications
-
-install -m 0755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
-
-install -m 0644 README.md %{buildroot}%{_docdir}/%{name}
-
-install -m 0644 LICENSE %{buildroot}%{_licensedir}/%{name}
-
-install -m 0644 src/extra/jellyfin-tui.desktop \
-    %{buildroot}%{_datadir}/applications/%{name}.desktop
+install -Dm0755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+install -Dm0644 LICENSE %{buildroot}%{_licensedir}/%{name}
+install -Dm0644 src/extra/jellyfin-tui.desktop %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %files
-%license LICENSE
+%license %{_licensedir}/%{name}
 %doc README.md
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 
 %changelog
-* %{date} %{user} - 1.2.6-1
-- Initial Fedora packaging.
-* %{date} %{user} -  1.3.0-1
-- https://github.com/dhonus/jellyfin-tui/releases/tag/v1.3.0
-* %{date} %{user} - 1.5.2-1
+* Tue Aug 18 2026 - 1.5.2-1
+- Update to version 1.5.2
+- Use refs/tags for Source0 URL
+- Add debug_package %{nil}
+- Remove unnecessary runtime dependencies
