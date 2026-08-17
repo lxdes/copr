@@ -14,6 +14,7 @@ Requires:       mpv
 
 BuildRequires:  cargo
 BuildRequires:  rust
+BuildRequires:  openssl-devel
 
 %description
 A feature-rich, music streaming Terminal User Interface (TUI) client for Jellyfin.
