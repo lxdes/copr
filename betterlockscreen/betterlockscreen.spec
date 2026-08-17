@@ -26,7 +26,9 @@ Requires:       bash
 
 BuildRequires:  bash
 BuildRequires:  make
-BuildRequires:  pkg-config
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(xcb)
 BuildRequires:  pkgconfig(xcb-xkb)
 BuildRequires:  pkgconfig(xcb-xinerama)
@@ -45,48 +47,35 @@ BuildRequires:  pkgconfig(fontconfig)
 BuildRequires:  pkgconfig(ev)
 BuildRequires:  pam-devel
 BuildRequires:  libev-devel
+BuildRequires:  libX11-devel
 BuildRequires:  libx11-xcb-devel
-BuildRequires:  libxcb-xkb-devel
-BuildRequires:  libxcb-xinerama-devel
-BuildRequires:  libxcb-randr-devel
-BuildRequires:  libxcb-composite-devel
-BuildRequires:  libxcb-image-devel
-BuildRequires:  libxcb-util-devel
-BuildRequires:  libxcb-xrm-devel
-BuildRequires:  libxkbcommon-devel
-BuildRequires:  libxkbcommon-x11-devel
-BuildRequires:  libjpeg-devel
-BuildRequires:  fontconfig-devel
-BuildRequires:  cairo-devel
-
-%package i3lock-color
-Summary:        Improved version of the original i3lock screen locker
-License:        ISC
-URL:            https://github.com/Raymo111/i3lock-color
 
 %description
 Betterlockscreen is a fast and visually appealing lockscreen wrapper for Linux
 systems. It takes an image or directory, applies various effects (blur, dim,
-pixelate, color), caches the results, and uses i3lock-color for locking. The
-cached images provide a natural lockscreen experience without the typical
-2-3 second delay.
+pixelate, color), caches the results, and uses i3lock-color for locking.
 
-%description i3lock-color
+%package -n i3lock-color
+Summary:        Improved version of the original i3lock screen locker
+License:        BSD-3-Clause AND MIT
+
+%description -n i3lock-color
 i3lock-color is an improved version of the original i3lock screen locker. It
 features support for background images, improved color selection, and other
 visual enhancements.
 
 %prep
 %autosetup -n betterlockscreen-%{bls_version}
-%setup -q -a1 -n i3lock-color-%{i3lock_version}
+# Unpack i3lock-color alongside betterlockscreen sources
+tar -xf %{SOURCE1}
 
 %build
 # i3lock-color: build with autotools
-%pushd i3lock-color-%{i3lock_version}
+pushd i3lock-color-%{i3lock_version}
 autoreconf -fi
 %configure --with-libinput
-make %{?_smp_mflags}
-%popd
+%make_build
+popd
 
 %install
 # betterlockscreen: install main script
@@ -101,34 +90,24 @@ install -Dm0644 examples/%{name}rc \
     %{buildroot}%{_docdir}/%{name}/%{name}rc
 
 # i3lock-color: install binary
-install -Dm0755 i3lock-color-%{i3lock_version}/build/i3lock \
+install -Dm0755 i3lock-color-%{i3lock_version}/i3lock \
     %{buildroot}%{_bindir}/i3lock-color
 
 # i3lock-color: install man page
-install -Dm0644 i3lock-color-%{i3lock_version}/build/i3lock.1 \
-    %{buildroot}%{_mandir}/man1/i3lock.1
-
-# i3lock-color: install completion scripts
-install -Dm0644 i3lock-color-%{i3lock_version}/build/bash_completion \
-    %{buildroot}%{_datadir}/bash-completion/completions/i3lock
-install -Dm0644 i3lock-color-%{i3lock_version}/build/zsh_completion.zsh \
-    %{buildroot}%{_datadir}/zsh/site-functions/_i3lock
-
-%pre
-useradd --no-user-group --system --shell /bin/false --comment "Betterlockscreen service account" "%{name}" || true
+install -Dm0644 i3lock-color-%{i3lock_version}/i3lock.1 \
+    %{buildroot}%{_mandir}/man1/i3lock-color.1
 
 %files
-%license betterlockscreen-%{bls_version}/LICENSE
-%doc betterlockscreen-%{bls_version}/README.md betterlockscreen-%{bls_version}/examples/
+%license LICENSE
+%doc README.md examples/
 %{_bindir}/%{name}
 %{_unitdir}/%{name}@.service
+%{_docdir}/%{name}/%{name}rc
 
-%files i3lock-color
+%files -n i3lock-color
 %{_bindir}/i3lock-color
-%{_mandir}/man1/i3lock.1*
-%{_datadir}/bash-completion/completions/i3lock
-%{_datadir}/zsh/site-functions/_i3lock
+%{_mandir}/man1/i3lock-color.1*
 
 %changelog
-* Mon Aug 17 2026 - 4.4.0-1
-- Initial package with i3lock-color dependency
+* Mon Aug 17 2026 Packaging Maintainer <maintainer@example.com> - 4.4.0-1
+- Initial package with i3lock-color subpackage
