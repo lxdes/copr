@@ -1,0 +1,22 @@
+# Extracted upstream source
+xcolor-[0-9]*/
+
+# Downloaded/generated sources
+*.crate
+*-vendor.tar.xz
+
+# RPM artifacts
+*.rpm
+*.src.rpm
+
+# RPM build directories
+BUILD/
+BUILDROOT/
+RPMS/
+SRPMS/
+SOURCES/
+SPECS/
+
+# Editor files
+*~
+.#*
