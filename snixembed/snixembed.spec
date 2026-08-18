@@ -1,10 +1,9 @@
-
 Name:           snixembed
 Version:        0.1.0
 Release:        1%{?dist}
 Summary:        Proxy StatusNotifierItems as XEmbedded system tray icons
 
-License:        FIXME
+License:        MIT
 URL:            https://git.sr.ht/~steef/snixembed
 Source0:        https://git.sr.ht/~steef/snixembed/archive/%{version}.tar.gz
 
@@ -30,6 +29,11 @@ corresponding XEmbed tray icons.
 %prep
 %autosetup -n snixembed-%{version}
 
+# Upstream generates version.vala from Git metadata and therefore expects
+# .git/HEAD to exist. Release tarballs don't contain .git, so provide the
+# release version ourselves and remove the Git dependency from the Makefile.
+sed -i 's/\.git\/HEAD//' Makefile
+
 %build
 %make_build
 
@@ -43,5 +47,5 @@ corresponding XEmbed tray icons.
 %{_mandir}/man1/snixembed.1*
 
 %changelog
-* Mon Aug 18 2026 - 0.1.0-1
+* Tue Aug 18 2026 Zac aRRAY <your-email@example.com> - 0.1.0-1
 - Initial package
