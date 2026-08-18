@@ -20,8 +20,7 @@ Requires: xrandr
 Requires: xset
 
 %description
-betterlockscreen is a bash script that uses i3lock-color to lock your
-screen with dynamic visual effects and custom background images.
+fast and sweet looking lockscreen for linux systems with effects!
 
 %prep
 %autosetup -n %{name}-%{version}
