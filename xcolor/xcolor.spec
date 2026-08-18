@@ -26,6 +26,7 @@ cursor information.
 %prep
 %autosetup -n %{crate}-%{version} -p1
 %cargo_prep -N
+sed -i 's/offline = true/offline = false/' .cargo/config.toml
 
 %build
 %cargo_build
