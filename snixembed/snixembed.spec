@@ -29,10 +29,7 @@ corresponding XEmbed tray icons.
 %prep
 %autosetup -n snixembed-%{version}
 
-# Upstream generates version.vala from Git metadata and therefore expects
-# .git/HEAD to exist. Release tarballs don't contain .git, so provide the
-# release version ourselves and remove the Git dependency from the Makefile.
-sed -i 's/\.git\/HEAD//' Makefile
+find . -maxdepth 3 -type f -print
 
 %build
 %make_build
