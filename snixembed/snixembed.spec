@@ -29,7 +29,13 @@ corresponding XEmbed tray icons.
 %prep
 %autosetup -n snixembed-%{version}
 
-find . -maxdepth 3 -type f -print
+# Generate a deterministic version file for release-tarball builds.
+cat > version.vala <<'EOF'
+const string VERSION = "%{version}";
+EOF
+
+# Prevent make from regenerating version.vala from Git metadata.
+sed -i 's/^version\.vala:.*$/version.vala:/' makefile
 
 %build
 %make_build
