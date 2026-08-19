@@ -1,5 +1,5 @@
 Name:           snixembed
-Version:        0.1.0
+Version:        0.3.3
 Release:        1%{?dist}
 Summary:        Proxy StatusNotifierItems as XEmbedded system tray icons
 
@@ -29,26 +29,42 @@ corresponding XEmbed tray icons.
 %prep
 %autosetup -n snixembed-%{version}
 
-# Generate a deterministic version file for release-tarball builds.
 cat > version.vala <<'EOF'
 const string VERSION = "%{version}";
 EOF
-
-# Prevent make from regenerating version.vala from Git metadata.
 sed -i 's/^version\.vala:.*$/version.vala:/' makefile
+
+cat > %{name}-autostart.desktop <<'EOF'
+[Desktop Entry]
+Version=1.0
+Type=Application
+NoDisplay=false
+Name=snixembed
+GenericName=StatusNotifierItems to X tray
+Comment=Proxy StatusNotifierItems as XEmbedded systemtray-spec icons
+Keywords=StatusNotifierItems;tray
+TryExec=snixembed
+Exec=snixembed
+StartupNotify=false
+Terminal=false
+EOF
 
 %build
 %make_build
 
 %install
 %make_install PREFIX=%{_prefix} BINDIR=%{_bindir} MANDIR=%{_mandir}
+install -Dm644 %{name}-autostart.desktop \
+    %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}.desktop
 
 %files
 %license LICENSE
 %doc README.md
 %{_bindir}/snixembed
 %{_mandir}/man1/snixembed.1*
+%{_sysconfdir}/xdg/autostart/%{name}.desktop
 
 %changelog
-* Tue Aug 18 2026 Zac aRRAY <your-email@example.com> - 0.1.0-1
-- Initial package
+* Tue Aug 18 2026 Zac <your-email@example.com> - 0.3.3-1
+- Update to 0.3.3
+- Add optional XDG autostart entry
