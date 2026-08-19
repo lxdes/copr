@@ -41,7 +41,7 @@ sed -i 's/^version\.vala:.*$/version.vala:/' makefile
 %make_build
 
 %install
-%make_install
+%make_install PREFIX=%{_prefix} BINDIR=%{_bindir} MANDIR=%{_mandir}
 
 %files
 %license LICENSE
