@@ -3,7 +3,7 @@ Version:        0.3.3
 Release:        1%{?dist}
 Summary:        Proxy StatusNotifierItems as XEmbedded system tray icons
 
-License:        MIT
+License:        ISC
 URL:            https://git.sr.ht/~steef/snixembed
 Source0:        https://git.sr.ht/~steef/snixembed/archive/%{version}.tar.gz
 
@@ -32,6 +32,7 @@ corresponding XEmbed tray icons.
 cat > version.vala <<'EOF'
 const string VERSION = "%{version}";
 EOF
+
 sed -i 's/^version\.vala:.*$/version.vala:/' makefile
 
 cat > %{name}-autostart.desktop <<'EOF'
@@ -42,7 +43,7 @@ NoDisplay=false
 Name=snixembed
 GenericName=StatusNotifierItems to X tray
 Comment=Proxy StatusNotifierItems as XEmbedded systemtray-spec icons
-Keywords=StatusNotifierItems;tray
+Keywords=StatusNotifierItems;tray;
 TryExec=snixembed
 Exec=snixembed
 StartupNotify=false
@@ -53,7 +54,12 @@ EOF
 %make_build
 
 %install
-%make_install PREFIX=%{_prefix} BINDIR=%{_bindir} MANDIR=%{_mandir}
+install -Dm755 snixembed \
+    %{buildroot}%{_bindir}/snixembed
+
+install -Dm644 snixembed.1 \
+    %{buildroot}%{_mandir}/man1/snixembed.1
+
 install -Dm644 %{name}-autostart.desktop \
     %{buildroot}%{_sysconfdir}/xdg/autostart/%{name}.desktop
 
